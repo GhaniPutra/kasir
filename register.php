@@ -6,6 +6,7 @@ $pesan_eror = "";
 $pesan_sukses = "";
 
 if (isset($_POST['register'])) {
+    $nama_lengkap = mysqli_real_escape_string($conn, $_POST['nama_lengkap']);
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = md5($_POST['password']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
@@ -15,7 +16,7 @@ if (isset($_POST['register'])) {
     if (mysqli_num_rows($cek_user) > 0) {
         $pesan_eror = "Username sudah digunakan!";
     } else {
-        $query = "INSERT INTO users (username, password, email) VALUES ('$username', '$password', '$email')";
+        $query = "INSERT INTO users (nama_lengkap, username, password, email) VALUES ('$nama_lengkap', '$username', '$password', '$email')";
         if (mysqli_query($conn, $query)) {
             // Langsung diarahkan ke halaman login tanpa mengubah tampilan/pesan sukses asli
             header("Location: login.php");
@@ -72,6 +73,10 @@ if (isset($_POST['register'])) {
             <?php endif; ?>
 
             <form action="register.php" method="POST" class="space-y-3">
+                <div>
+                    <label for="nama_lengkap" class="block text-xs font-medium text-gray-200 mb-1">Nama lengkap:</label>
+                    <input type="text" name="nama_lengkap" id="nama_lengkap" required class="w-full rounded-md bg-fira-input border border-transparent px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-white">
+                </div>
                 <div>
                     <label for="username" class="block text-xs font-medium text-gray-200 mb-1">Username:</label>
                     <input type="text" name="username" id="username" required class="w-full rounded-md bg-fira-input border border-transparent px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-white">
